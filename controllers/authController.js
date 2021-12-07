@@ -12,6 +12,12 @@ exports.signup = catchAsync(async (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
+    imageUrl: req.body.imageUrl,
+    dlNo: req.body.dlNo,
+    address: req.body.address,
+    gender: req.body.gender,
+    occupation: req.body.occupation,
+    phNo: req.body.phNo,
   });
 
   const token = signToken(newUser._id);

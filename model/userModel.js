@@ -6,15 +6,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "A user must have a name"],
   },
+  gender: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: [true, "User must provide a email"],
     unique: true,
     loweracse: true,
     validate: [validator.isEmail, "Please enter a valid email"],
-  },
-  photo: {
-    type: String,
   },
   password: {
     type: String,
@@ -32,6 +33,35 @@ const userSchema = new mongoose.Schema({
       },
       message: "Passwords dont match",
     },
+  },
+  address: {
+    type: String,
+    required: true,
+  },
+  occupation: {
+    type: String,
+    required: true,
+  },
+  totalRides: {
+    type: Number,
+    default: 0,
+  },
+  ratings: {
+    type: [Number],
+    default: [],
+  },
+  phNo: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  dlNo: {
+    type: String,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
+    default: "",
   },
 });
 
