@@ -3,13 +3,11 @@ const tourSchema = new mongoose.Schema({
   source: {
     type: String,
     required: [true, "A trip must have a source"],
-    unique: true,
     trim: true,
   },
   destination: {
     type: String,
     required: [true, "A trip must have a source"],
-    unique: true,
     trim: true,
   },
   creatorId: {

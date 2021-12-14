@@ -62,7 +62,6 @@ exports.createTour = async (req, res) => {
       },
     });
   } catch (err) {
-    //400 for bad request
     res.status(400).json({
       status: "failed",
       message: err,
