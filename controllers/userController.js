@@ -33,11 +33,22 @@ exports.createUser = (req, res) => {
   });
 };
 
-exports.updateUser = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "this route is not yet defined",
-  });
+exports.updateUser = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.status(201).json({
+      status: "success",
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: "Bad request",
+    });
+  }
 };
 
 exports.deleteUser = (req, res) => {

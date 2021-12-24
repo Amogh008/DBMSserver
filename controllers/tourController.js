@@ -35,7 +35,6 @@ exports.getTour = async (req, res) => {
     console.log(req.connection.remoteAddress);
 
     const tour = await Tour.findById(req.params.id);
-    //Tour.findOne({_id:87987q908w7r208})
 
     res.status(200).json({
       status: "success",
