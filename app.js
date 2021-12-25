@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 
 //? indiactes optional parameters /:id?/:x?
 
-app.use("/api/v1/tours", tourRouter); //This is mounting a router
+app.use("/api/v1/tours", tourRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/copass", coPassRouter);
 
