@@ -1,3 +1,5 @@
+const coPass = require("../model/coPassStatus");
+const User = require("../model/userModel");
 const Tour = require("./../model/tourModel");
 const APIFeatures = require("./../util/APIfeature");
 
@@ -54,11 +56,25 @@ exports.createTour = async (req, res) => {
   console.log(req.body);
   try {
     const newTour = await Tour.create(req.body);
+    const upUser = await User.findByIdAndUpdate(
+      req.body.creatorId,
+      {
+        $push: { created: newTour._id },
+      },
+      { new: true }
+    );
+
+    const newcoPass = await coPass.create({
+      tripId: newTour._id,
+      creatorId: newTour.creatorId,
+    });
 
     res.status(201).json({
       status: "succcess",
       data: {
         tour: newTour,
+        Copass: newcoPass,
+        upUser,
       },
     });
   } catch (err) {
@@ -79,11 +95,25 @@ exports.updateTour = async (req, res) => {
         runValidators: true,
       }
     );
+    const newCopass = await coPass.findOneAndUpdate(
+      { tripId: tour._id },
+      {
+        $push: { fellows: req.body.userId },
+      }
+    );
+    const upUser = await User.findByIdAndUpdate(
+      req.body.userId,
+      {
+        $push: { booked: tour._id },
+      },
+      { new: true }
+    );
 
     res.status(201).json({
       status: "success",
       data: {
         tour,
+        upUser,
       },
     });
   } catch (err) {
@@ -97,10 +127,12 @@ exports.updateTour = async (req, res) => {
 exports.deleteTour = async (req, res) => {
   try {
     const tour = await Tour.findByIdAndDelete(req.params.id);
+    const delcoPass = await coPass.findOneAndDelete({ tripId: tour._id });
     res.status(200).json({
       status: "success",
       data: {
         tour,
+        delcoPass,
       },
     });
   } catch (err) {

@@ -63,6 +63,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: " ",
   },
+  booked: [String],
+  created: [String],
 });
 
 userSchema.pre("save", async function (next) {
