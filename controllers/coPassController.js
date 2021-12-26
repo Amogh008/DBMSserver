@@ -1,12 +1,19 @@
+const User = require("../model/userModel");
 const CoPass = require("./../model/coPassStatus");
 
-exports.createTrip = async (req, res) => {
+exports.getCoPassDetails = async (req, res) => {
   try {
-    console.log(req.body);
-    await CoPass.create(req.body);
+    const tripList = await CoPass.findOne({ tripId: req.params.id });
+    const coPassId = tripList.fellows;
+    const coPassInfo = await User.find({ _id: { $in: coPassId } }).select({
+      name: 1,
+    });
 
     res.status(201).json({
       status: "success",
+      data: {
+        coPass: coPassInfo,
+      },
     });
   } catch {
     res.status(400).json({
@@ -14,13 +21,3 @@ exports.createTrip = async (req, res) => {
     });
   }
 };
-exports.getAllCreatedTrips = (req, res) => {
-  try {
-  } catch {}
-};
-
-exports.getAllBookedTrips = (req, res) => {};
-
-exports.checkBookedTrips = (req, res) => {};
-
-exports.getAllCompletedTrips = (req, res) => {};
