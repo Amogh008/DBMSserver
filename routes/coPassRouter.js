@@ -5,6 +5,11 @@ const authController = require("./../controllers/authController");
 
 router
   .route("/:id")
-  .get(authController.protect, coPassController.getCoPassDetails);
+  .get(authController.protect, coPassController.getCoPassDetails)
+  .delete(authController.protect, coPassController.completeTrip);
+
+router
+  .route("/status/:id")
+  .get(authController.protect, coPassController.getStatus);
 
 module.exports = router;

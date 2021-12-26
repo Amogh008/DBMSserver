@@ -37,10 +37,6 @@ const tourSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  status: {
-    type: String,
-    default: "Scheduled",
-  },
 });
 
 const Tour = mongoose.model("Tour", tourSchema);

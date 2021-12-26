@@ -4,6 +4,19 @@ const coPassSchema = new mongoose.Schema({
     type: String,
     required: [true, "A trip must have a source"],
   },
+  tripDate: {
+    type: Date,
+  },
+  source: {
+    type: String,
+    required: [true, "A trip must have a source"],
+    trim: true,
+  },
+  destination: {
+    type: String,
+    required: [true, "A trip must have a source"],
+    trim: true,
+  },
   creatorId: {
     type: String,
     required: [true, "A trip must have a source"],

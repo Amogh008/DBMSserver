@@ -9,9 +9,6 @@ exports.getAllUsers = (req, res) => {
 
 exports.getUser = async (req, res) => {
   try {
-    console.log(req.params.id);
-    // console.log(req.connection.remoteAddress);
-
     const person = await User.findById(req.params.id);
     res.status(200).json({
       status: "success",

@@ -12,7 +12,7 @@ exports.getBookedTours = async (req, res) => {
     const tourId = user.booked;
 
     const tours = await Tour.find({ _id: { $in: tourId } });
-    console.log(tours);
+
     res.status(200).json({
       status: "success",
       results: tours.length,
@@ -74,7 +74,6 @@ exports.getCreatedTours = async (req, res) => {
     const tourId = user.created;
 
     const tours = await Tour.find({ _id: { $in: tourId } });
-    console.log(tours);
     res.status(200).json({
       status: "success",
       results: tours.length,
@@ -117,9 +116,6 @@ exports.getAllTours = async (req, res) => {
 
 exports.getTour = async (req, res) => {
   try {
-    console.log(req.params.id);
-    console.log(req.connection.remoteAddress);
-
     const tour = await Tour.findById(req.params.id);
 
     res.status(200).json({
@@ -137,7 +133,6 @@ exports.getTour = async (req, res) => {
 };
 
 exports.createTour = async (req, res) => {
-  console.log(req.body);
   try {
     const newTour = await Tour.create(req.body);
     const upUser = await User.findByIdAndUpdate(
@@ -151,6 +146,9 @@ exports.createTour = async (req, res) => {
     const newcoPass = await coPass.create({
       tripId: newTour._id,
       creatorId: newTour.creatorId,
+      source: newTour.source,
+      destination: newTour.destination,
+      tripDtae: newTour.startDate,
     });
 
     res.status(201).json({
@@ -211,13 +209,19 @@ exports.updateTour = async (req, res) => {
 exports.deleteTour = async (req, res) => {
   try {
     const tour = await Tour.findByIdAndDelete(req.params.id);
-    const delcoPass = await coPass.findOneAndDelete({ tripId: tour._id });
+    const delcoPass = await coPass.findOneAndUpdate(
+      { tripId: tour._id },
+      {
+        status: "Cancelled",
+      }
+    );
     await User.updateMany(
       { booked: tour._id },
       {
         $pull: { booked: tour._id },
       }
     );
+
     const upUser = await User.findOneAndUpdate(
       { created: tour._id },
       { $pull: { created: tour._id } },

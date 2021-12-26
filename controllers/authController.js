@@ -35,7 +35,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(email + "   " + password);
 
   if (!email || !password) {
     return res.status(400).json({
@@ -78,6 +77,5 @@ exports.protect = catchAsync(async (req, res, next) => {
   const verified = await jwt.verify(token, process.env.JWT_SECRET);
 
   // const user = Tour.fincOne({verified.})
-  console.log(verified);
   next();
 });
