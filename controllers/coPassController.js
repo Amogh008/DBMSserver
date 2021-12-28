@@ -50,10 +50,7 @@ exports.getStatus = async (req, res) => {
 };
 
 exports.completeTrip = async (req, res) => {
-  console.log("hello out");
-
   try {
-    console.log("hello");
     const tour = await Tour.findByIdAndDelete(req.params.id);
     const delcoPass = await CoPass.findOneAndUpdate(
       { tripId: tour._id },
